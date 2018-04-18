@@ -42,9 +42,9 @@ namespace shared_model {
 #define SIGNABLE(Model) Signable<Model, iroha::model::Model>
 #endif
 
-/// Type of signature range, which returns when signatures are invoked
-using SignatureRangeType = boost::any_range<const interface::Signature &,
-                                            boost::forward_traversal_tag>;
+    /// Type of signature range, which returns when signatures are invoked
+    using SignatureRangeType = boost::any_range<const interface::Signature &,
+                                                boost::forward_traversal_tag>;
 
 /**
  * Interface provides signatures and adds them to model object
@@ -103,7 +103,7 @@ using SignatureRangeType = boost::any_range<const interface::Signature &,
        */
       bool operator==(const Model &rhs) const override {
         return this->hash() == rhs.hash()
-//            and this->signatures() == rhs.signatures()
+            //            and this->signatures() == rhs.signatures()
             and boost::equal(this->signatures(), rhs.signatures())
             and this->createdTime() == rhs.createdTime();
       }
@@ -125,6 +125,10 @@ using SignatureRangeType = boost::any_range<const interface::Signature &,
                        [](auto &signature) { return signature.toString(); })
             .finalize();
       }
+
+     protected:
+      using SignatureSetType =
+          std::unordered_set<types::SignatureType, SignableHash>;
 
      private:
       mutable boost::optional<types::HashType> hash_;
